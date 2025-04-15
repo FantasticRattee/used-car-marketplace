@@ -1,0 +1,250 @@
+
+:root {
+    --bg-dark: #050B20;
+    --dealer-badge: #405FF2;
+    --home-badge: #3D923A;
+    --text-dark: #050B20;
+    --btn-yellow: #FFC830;
+    --btn-red: #FF0707;
+    --border-color: #310F0F;
+    --accent-color: #5500FF;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DM Sans', 'Inter', sans-serif;
+  }
+  
+  body {
+    background-color: var(--bg-dark);
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .app {
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* Header Styles */
+  header {
+    width: 100%;
+  }
+  
+  .header-main {
+    display: flex;
+    align-items: center;
+    height: 169px;
+    padding: 0 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .logo {
+    width: 169px;
+    height: 169px;
+  }
+  
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: 1.5rem;
+  }
+  
+  .nav-item {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: normal;
+    cursor: pointer;
+  }
+  
+  .header-buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: auto;
+  }
+  
+  .btn {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    border: none;
+  }
+  
+  .btn-yellow {
+    background-color: var(--btn-yellow);
+    color: #212529;
+  }
+  
+  .btn-red {
+    background-color: var(--btn-red);
+    color: #212529;
+  }
+  
+  .header-divider {
+    height: 3px;
+    background-color: var(--accent-color);
+  }
+  
+  /* Car Grid */
+  .car-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 79px;
+    padding: 60px 149px;
+  }
+  
+  /* Car Card */
+  .car-card {
+    background-color: white;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  
+  .car-image-container {
+    position: relative;
+    height: 218px;
+  }
+  
+  .car-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .car-badge {
+    position: absolute;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: normal;
+    padding: 0 15px;
+    border-radius: 30px;
+    left: 20px;
+    top: 22px;
+  }
+  
+  .dealer-badge {
+    background-color: var(--dealer-badge);
+  }
+  
+  .home-badge {
+    background-color: var(--home-badge);
+  }
+  
+  .car-details {
+    padding: 1rem 31px;
+  }
+  
+  .car-name {
+    color: var(--text-dark);
+    font-size: 1.125rem;
+    font-weight: normal;
+    margin-bottom: 5px;
+  }
+  
+  .car-model {
+    color: var(--text-dark);
+    font-size: 0.875rem;
+    font-weight: normal;
+    margin-bottom: 1.25rem;
+  }
+  
+  .car-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 0;
+    margin-bottom: 1.25rem;
+  }
+  
+  .spec-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-dark);
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+  
+  .car-price {
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1.25rem;
+  }
+  
+  .car-buttons {
+    display: flex;
+    gap: 33px;
+  }
+  
+  .contact-button {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .car-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      padding: 40px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header-main {
+      height: auto;
+      flex-wrap: wrap;
+      padding: 1.25rem;
+    }
+    
+    nav {
+      width: 100%;
+      justify-content: center;
+      margin-top: 1.25rem;
+      margin-left: 0;
+    }
+    
+    .header-buttons {
+      width: 100%;
+      justify-content: center;
+      margin-top: 1.25rem;
+      margin-left: 0;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .car-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+    
+    .header-main {
+      flex-direction: column;
+      padding: 1.25rem;
+    }
+    
+    .logo {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .nav-item {
+      font-size: 1.25rem;
+    }
+    
+    .header-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .btn {
+      width: 100%;
+    }
+  }
+  

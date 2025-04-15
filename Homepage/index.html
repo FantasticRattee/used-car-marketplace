@@ -18,6 +18,8 @@
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
   </head>
 
+  <!-- PASTE HERE? -->
+
   <body>
     <!-- Header Section -->
     <header class="header">
@@ -29,15 +31,26 @@
               alt="Logo"
               class="logo"
             />
-            <a href="/" class="nav-link">Home</a>
+            <!-- Big Home button -->
+            <!-- <a href="/" class="nav-link">Home</a> -->
             <div class="nav-buttons">
-              <button class="nav-button">Search</button>
-              <button class="nav-button">Members</button>
+
+              <!-- <button class="nav-button">Search</button> -->
+              <!-- <button class="nav-button">Members</button> -->
+              <button class="nav-button" onclick="window.location.href='/'">Home</button>
+              <button class="nav-button" onclick="window.location.href='/search'">Search</button>
+              <!-- <button class="nav-button" onclick="window.location.href='/login'">LOGIN</button> -->
+
+              
             </div>
           </div>
           <div class="header-right">
+
             <button class="btn btn-yellow">Edit Car Selling/ADD</button>
-            <button class="btn btn-red">LOGIN</button>
+
+            <!-- <button class="btn btn-red">LOGIN</button> -->
+            <button class="btn btn-red" onclick="window.location.href='/login'">LOGIN</button>
+
           </div>
         </div>
         <div class="header-border"></div>
@@ -55,50 +68,46 @@
           />
         </div>
         <div class="search-panel-container">
-          <div class="search-panel">
+
+
+          <form id="search-form" class="search-panel" action="/searchpage-result" method="GET">
             <div class="search-field">
-              <select id="brand" class="select-field" aria-label="Select Brand">
+              <select id="brand" name="brand" class="select-field" aria-label="Select Brand">
                 <option value="">Select Brand</option>
                 <option value="bmw">BMW</option>
                 <option value="mercedes">Mercedes</option>
                 <option value="honda">Honda</option>
+                <option value="toyota">Toyota</option>
+                <option value="audi">Audi</option>
+                <option value="porsche">Porsche</option>
               </select>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c?placeholderIfAbsent=true"
-                class="dropdown-arrow"
-                alt="Dropdown arrow"
-              />
+              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c" class="dropdown-arrow" alt="Dropdown arrow" />
             </div>
 
             <div class="search-field">
-              <select id="model" class="select-field" aria-label="Select Model">
+              <select id="model" name="model" class="select-field" aria-label="Select Model">
                 <option value="">Select Model</option>
                 <option value="330">330</option>
                 <option value="520">520</option>
                 <option value="cls">CLS</option>
               </select>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c?placeholderIfAbsent=true"
-                class="dropdown-arrow"
-                alt="Dropdown arrow"
-              />
+              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c" class="dropdown-arrow" alt="Dropdown arrow" />
             </div>
 
             <div class="search-field">
-              <select id="sellerType" class="select-field" aria-label="Select Seller Type">
+              <select id="sellerType" name="sellerType" class="select-field" aria-label="Select Seller Type">
                 <option value="">Select Seller Type</option>
                 <option value="dealer">Dealer</option>
                 <option value="private">Private</option>
               </select>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c?placeholderIfAbsent=true"
-                class="dropdown-arrow"
-                alt="Dropdown arrow"
-              />
+              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c" class="dropdown-arrow" alt="Dropdown arrow" />
             </div>
 
-            <button class="btn btn-black">Go View</button>
-          </div>
+            <button class="btn btn-black" type="submit">Go View</button>
+          </form>
+
+
+
         </div>
       </div>
     </main>
@@ -116,5 +125,41 @@
     <!--  -->
     <script src="script.js"></script>
     <!--  -->
+
+
+    <script>
+      const brandToModels = {
+        bmw: ["330", "520"],
+        mercedes: ["cls", "cle"],
+        honda: ["civic", "accord"],
+        toyota: ["supra", "gr corolla"],
+        audi: ["a3", "q5"],
+        porsche: ["911", "cayenne", "panamera"]
+      };
+    
+      document.addEventListener("DOMContentLoaded", () => {
+        const brandSelect = document.getElementById("brand");
+        const modelSelect = document.getElementById("model");
+    
+        brandSelect.addEventListener("change", () => {
+          const selectedBrand = brandSelect.value.toLowerCase();
+          const models = brandToModels[selectedBrand] || [];
+    
+          // Clear current model options
+          modelSelect.innerHTML = '<option value="">Select Model</option>';
+    
+          // Populate new options
+          models.forEach(model => {
+            const option = document.createElement("option");
+            option.value = model.toLowerCase();
+            option.textContent = model;
+            modelSelect.appendChild(option);
+          });
+        });
+      });
+    </script>
+
+
+
   </body>
 </html>
