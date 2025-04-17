@@ -1,6 +1,7 @@
 // ✅ Add: Car data
 const carData = [
   {
+    id: 1, // ✅ Add ID
     image: "https://i.imgur.com/orGOeL3.jpeg",
     type: "dealer",
     name: "BMW 330 LI",
@@ -13,7 +14,39 @@ const carData = [
     },
     price: "2,190,000 THB",
   },
+
   {
+    id: 2, // ✅ Add: 520d
+    image: "https://i.imgur.com/YNURdBb.jpeg",
+    type: "private",
+    name: "BMW 520d 2.0 G30",
+    model: "M Sport LCI",
+    specs: {
+      mileage: "35,000 - 40,000 KM",
+      fuelType: "Diesel",
+      transmission: "Automatic",
+      year: "2024",
+    },
+    price: "2,390,000 THB",
+  },
+
+  {
+    id: 3, // ✅ Add: M5 G90
+    image: "https://i.imgur.com/1UxfcAo.jpeg",
+    type: "dealer",
+    name: "BMW M5 G90",
+    model: "4.4 V8 TwinPower Turbo xDrive",
+    specs: {
+      mileage: "1,200 KM",
+      fuelType: "Petrol Hybrid",
+      transmission: "8-Speed Automatic",
+      year: "2024",
+    },
+    price: "9,900,000 THB",
+  },
+
+  {
+    id: 4,
     image: "https://i.imgur.com/L6ts6Of.jpeg",
     type: "private",
     name: "Audi Q5",
@@ -26,7 +59,24 @@ const carData = [
     },
     price: "1,690,000 THB",
   },
+
   {
+    id: 5,
+    image: "https://i.imgur.com/C4thvbl.jpeg", 
+    type: "dealer",
+    name: "Audi RS7 Sportback",
+    model: "4.0 TFSI Quattro",
+    specs: {
+      mileage: "9,000 KM",
+      fuelType: "Petrol",
+      transmission: "8-Speed Automatic",
+      year: "2023",
+    },
+    price: "9,490,000 THB",
+  },
+
+  {
+    id: 6,
     image: "https://i.imgur.com/OHNEZZG.jpeg",
     type: "dealer",
     name: "Mercedes Benz CLS 300d",
@@ -40,6 +90,7 @@ const carData = [
     price: "3,290,000 THB",
   },
   {
+    id: 7, // ✅ Add: Type R
     image: "https://i.imgur.com/dmYdit7.jpeg",
     type: "dealer",
     name: "Honda Civic 2.0 FL5 Type R",
@@ -51,11 +102,12 @@ const carData = [
       year: "2023",
     },
     price: "3,650,000 THB",
-  }, // ✅ Add: Type R
+  },
 
   {
+    id: 8, // ✅ Add: Accord G11
     image: "https://i.imgur.com/MxpbjYZ.jpeg",
-    type: "dealer",
+    type: "private",
     name: "Honda Accord 2.0 e:HEV RS",
     model: "G11 Hybrid",
     specs: {
@@ -65,9 +117,10 @@ const carData = [
       year: "2024",
     },
     price: "1,499,000 THB",
-  }, // ✅ Add: Accord G11
+  },
 
   {
+    id: 9, // ✅ Add: CLE53
     image: "https://i.imgur.com/gdwIkWm.jpeg",
     type: "dealer",
     name: "Mercedes-Benz CLE53 3.0 AMG",
@@ -79,11 +132,12 @@ const carData = [
       year: "2024",
     },
     price: "4,690,000 THB",
-  }, // ✅ Add: CLE53
+  },
 
   {
+    id: 10, // ✅ Add: CLS53
     image: "https://i.imgur.com/m1e2ygs.jpeg",
-    type: "dealer",
+    type: "private",
     name: "Mercedes-Benz CLS53 3.0",
     model: "W257 AMG 4MATIC+",
     specs: {
@@ -93,24 +147,11 @@ const carData = [
       year: "2025",
     },
     price: "4,590,000 THB",
-  }, // ✅ Add: CLS53
+  },
 
   {
-    image: "https://i.imgur.com/YNURdBb.jpeg",
-    type: "dealer",
-    name: "BMW 520d 2.0 G30",
-    model: "M Sport LCI",
-    specs: {
-      mileage: "35,000 - 40,000 KM",
-      fuelType: "Diesel",
-      transmission: "Automatic",
-      year: "2024",
-    },
-    price: "2,390,000 THB",
-  }, // ✅ Add: 520d
-
-  {
-    image: "https://i.imgur.com/rz9ENp0.jpeg", // ✅ GR Supra (use your own if preferred)
+    id: 11, // ✅ Add: GR Supra
+    image: "https://i.imgur.com/rz9ENp0.jpeg",
     type: "dealer",
     name: "Toyota GR Supra 3.0",
     model: "RZ Coupe",
@@ -121,11 +162,12 @@ const carData = [
       year: "2023",
     },
     price: "4,290,000 THB",
-  }, // ✅ Add: GR Supra
+  },
   
   {
-    image: "https://i.imgur.com/TsTvtRi.jpeg", // ✅ GR Corolla (use your own if preferred)
-    type: "dealer",
+    id: 12, // ✅ Add: GR Corolla
+    image: "https://i.imgur.com/TsTvtRi.jpeg",
+    type: "private",
     name: "Toyota GR Corolla 1.6 Turbo",
     model: "Circuit Edition",
     specs: {
@@ -135,10 +177,11 @@ const carData = [
       year: "2023",
     },
     price: "3,390,000 THB",
-  }, // ✅ Add: GR Corolla
+  },
 
   {
-    image: "https://i.imgur.com/E3vZhUQ.jpeg", // ✅ Porsche Panamera
+    id: 13, // ✅ Add: Panamera
+    image: "https://i.imgur.com/E3vZhUQ.jpeg",
     type: "dealer",
     name: "Porsche Panamera 4 E-Hybrid",
     model: "Executive Sedan",
@@ -149,11 +192,12 @@ const carData = [
       year: "2022",
     },
     price: "6,590,000 THB",
-  }, // ✅ Add: Panamera
+  },
   
   {
-    image: "https://i.imgur.com/clKgWeV.jpeg", // ✅ Porsche Cayenne
-    type: "dealer",
+    id: 14, // ✅ Add: Cayenne
+    image: "https://i.imgur.com/clKgWeV.jpeg",
+    type: "private",
     name: "Porsche Cayenne Coupe",
     model: "E-Hybrid AWD",
     specs: {
@@ -163,10 +207,11 @@ const carData = [
       year: "2023",
     },
     price: "7,190,000 THB",
-  }, // ✅ Add: Cayenne
+  },
   
   {
-    image: "https://i.imgur.com/HnQcRCW.jpeg", // ✅ Porsche 911 GT3 RS
+    id: 15, // ✅ Add: GT3 RS
+    image: "https://i.imgur.com/HnQcRCW.jpeg",
     type: "dealer",
     name: "Porsche 911 GT3 RS",
     model: "992 Generation",
@@ -177,9 +222,9 @@ const carData = [
       year: "2023",
     },
     price: "19,800,000 THB",
-  } // ✅ Add: GT3 RS
-
+  }
 ];
+
 
 // ✅ Add: Extract search params
 function getQueryParams() {
@@ -196,6 +241,11 @@ function getQueryParams() {
 function createCarCard(car) {
   const card = document.createElement("article");
   card.className = "car-card";
+  card.style.cursor = "pointer";
+
+  card.addEventListener("click", () => {
+    window.location.href = `/detail?id=${car.id}`;
+  });
 
   const imageContainer = document.createElement("div");
   imageContainer.className = "car-image-container";
@@ -288,13 +338,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const filtered = carData.filter((car) => {
     const carName = car.name.toLowerCase();
     const carModel = car.model.toLowerCase();
-    const matchesKeyword = keyword === "" || carName.includes(keyword) || carModel.includes(keyword); // ✅ Fix
+    const matchesKeyword = keyword === "" || carName.includes(keyword) || carModel.includes(keyword);
 
-
-    // const matchesBrand = brand === "" || carName.includes(brand); // ✅ Fix
-    const normalize = (str) => str.replace(/[-\s]/g, "").toLowerCase(); // ✅ Add
-    const matchesBrand = brand === "" || normalize(carName).includes(normalize(brand)); // ✅ Fix
-
+    const normalize = (str) => str.replace(/[-\s]/g, "").toLowerCase();
+    const matchesBrand = brand === "" || normalize(carName).includes(normalize(brand));
 
     const matchesModel = model === "" || carModel.includes(model);
     const matchesSeller = sellerType === "" || car.type === sellerType;

@@ -13,6 +13,7 @@ app.use("/Login", express.static(path.join(__dirname, "Login")));
 app.use("/searchpage", express.static(path.join(__dirname, "searchpage")));
 app.use("/searchpage-result", express.static(path.join(__dirname, "searchpage-result")));
 app.use("/search-result", express.static(path.join(__dirname, "searchpage-result"))); // ✅ Fix
+app.use("/detail", express.static(path.join(__dirname, "detail")));
 
 // Default route
 app.get("/", (req, res) => {
@@ -37,6 +38,11 @@ app.get("/search", (req, res) => {
 // ✅ Fixed: Search result route (must match form action)
 app.get("/search-result", (req, res) => {
   res.sendFile(path.join(__dirname, "searchpage-result", "index.html"));
+});
+
+// detail
+app.get("/detail", (req, res) => {
+  res.sendFile(path.join(__dirname, "detail", "index.html"));
 });
 
 app.listen(PORT, () => {
