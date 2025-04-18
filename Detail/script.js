@@ -416,3 +416,40 @@ sideImages.forEach((sideImg) => {
     sideImg.src = tempSrc;
   });
 });
+
+
+
+vehicleForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const formData = {
+    image: document.getElementById("url1").value,
+    image_1: document.getElementById("url2").value,
+    image_2: document.getElementById("url3").value,
+    image_3: "", // optional or can use url1 as duplicate
+    type: document.getElementById("type").value || "dealer", // or "private"
+    name: document.getElementById("name").value,
+    model: document.getElementById("model").value,
+    mileage: document.getElementById("mileage").value,
+    fuelType: document.getElementById("fuelType").value,
+    transmission: document.getElementById("transmission").value,
+    year: document.getElementById("year").value,
+    price: document.getElementById("price").value,
+    description: document.getElementById("details").value
+  };
+
+  fetch("/api/cars", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData)
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("✅ Car added:", data);
+      alert("Car saved successfully!");
+    })
+    .catch(err => {
+      console.error("❌ Error saving car:", err);
+      alert("Failed to save car.");
+    });
+});

@@ -58,6 +58,10 @@
     font-weight: normal;
     cursor: pointer;
   }
+  .nav-item:hover {
+    color: #d1d1d1;
+  }
+
   
   .header-buttons {
     display: flex;

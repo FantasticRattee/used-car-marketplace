@@ -38,11 +38,16 @@ body {
   margin-left: 55px;
 }
 
+
 .nav-item {
   color: white;
   font-size: 24px;
   font-weight: 500;
 }
+.nav-item:hover {
+  color: #d1d1d1;
+}
+
 
 .header-buttons {
   display: flex;

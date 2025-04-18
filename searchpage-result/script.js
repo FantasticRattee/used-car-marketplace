@@ -357,4 +357,15 @@ document.addEventListener("DOMContentLoaded", () => {
   filtered.forEach((car) => {
     container.appendChild(createCarCard(car));
   });
+
+
+
+  fetch("/api/cars")
+  .then(res => res.json())
+  .then(data => {
+    console.log("🚗 Cars from DB:", data);
+    // render them to page...
+  })
+  .catch(err => console.error("❌ Error:", err));
+
 });

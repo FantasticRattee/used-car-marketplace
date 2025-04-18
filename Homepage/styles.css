@@ -68,6 +68,11 @@
     line-height: 1;
     align-self: center;
   }
+
+  .nav-item:hover {
+    color: #d1d1d1;
+  }
+
   
   .nav-buttons {
     display: flex;
