@@ -18,8 +18,8 @@ app.use(express.json()); // for parsing JSON body
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",      // your DB username
-  password: "",      // your DB password
-  database: "car_marketplace" // your DB name
+  password: "u6688141",      // your DB password
+  database: "USEDCAR" // your DB name
 });
 
 db.connect(err => {
@@ -34,8 +34,6 @@ db.connect(err => {
 
 
 
-
-
 // Serve static files
 app.use("/Homepage", express.static(path.join(__dirname, "Homepage")));
 app.use("/Login", express.static(path.join(__dirname, "Login")));
@@ -44,6 +42,8 @@ app.use("/searchpage-result", express.static(path.join(__dirname, "searchpage-re
 app.use("/search-result", express.static(path.join(__dirname, "searchpage-result"))); // ✅ Fix
 app.use("/detail", express.static(path.join(__dirname, "detail")));
 app.use("/product-add", express.static(path.join(__dirname, "product-add")));
+app.use("/product-modify", express.static(path.join(__dirname, "product-modify")));
+
 
 // Default route
 app.get("/", (req, res) => {
@@ -80,6 +80,12 @@ app.get("/product-add", (req, res) => {
   res.sendFile(path.join(__dirname, "product-add", "index.html"));
 });
 
+//productmanage - modify
+app.get("/product-modify", (req, res) => {
+  res.sendFile(path.join(__dirname, "product-modify", "index.html"));
+});
+
+
 // SQL
 app.get("/api/cars", (req, res) => {
   db.query("SELECT * FROM cars", (err, results) => {
@@ -103,24 +109,88 @@ app.post("/api/cars", (req, res) => {
     transmission,
     year,
     price,
-    description
+    description,
+    owner_name,
+    owner_surname,
+    phone_number
   } = req.body;
 
-  const sql = `
-    INSERT INTO cars 
-    (image, image_1, image_2, image_3, type, name, model, mileage, fuelType, transmission, year, price, description)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `;
+  
 
-  const values = [image, image_1, image_2, image_3, type, name, model, mileage, fuelType, transmission, year, price, description];
+  console.log("📦 Incoming data:", req.body); // ✅ Add this
+
+  const sql = `
+  INSERT INTO cars 
+  (image, image_1, image_2, image_3, type, name, model, mileage, fuelType, transmission, year, price, description, owner_name, owner_surname, phone_number)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
+
+
+const values = [
+  image, image_1, image_2, image_3,
+  type, name, model, mileage, fuelType, transmission, year,
+  price, description,
+  owner_name, owner_surname, phone_number
+];
+
 
   db.query(sql, values, (err, result) => {
-    if (err) return res.status(500).json({ error: err });
+    if (err) {
+      console.error("❌ SQL Error:", err); // ✅ Add this
+      return res.status(500).json({ error: err });
+    }
     res.status(201).json({ success: true, id: result.insertId });
   });
 });
+
 
 app.listen(PORT, () => {
   console.log(`🚗 Server running at http://localhost:${PORT}`);
 });
 
+
+
+// ✅ Update vehicle by ID
+app.put("/api/cars/:id", (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+
+  const sql = `
+    UPDATE cars SET 
+      image_1 = ?, image_2 = ?, image_3 = ?, 
+      type = ?, name = ?, model = ?, mileage = ?, fuelType = ?, 
+      transmission = ?, year = ?, price = ?, description = ?, 
+      owner_name = ?, owner_surname = ?, phone_number = ?
+    WHERE id = ?
+  `;
+
+  const values = [
+    data.image_1, data.image_2, data.image_3,
+    data.type, data.name, data.model, data.mileage,
+    data.fuelType, data.transmission, data.year,
+    data.price, data.description,
+    data.owner_name, data.owner_surname, data.phone_number,
+    id
+  ];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("❌ Update error:", err);
+      return res.status(500).json({ error: err });
+    }
+    res.json({ success: true, updated: result.affectedRows });
+  });
+});
+
+// ✅ Delete vehicle by ID — DO NOT NEST inside PUT!
+app.delete("/api/cars/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "DELETE FROM cars WHERE id = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("❌ Delete error:", err);
+      return res.status(500).json({ error: err });
+    }
+    res.json({ success: true, deleted: result.affectedRows });
+  });
+});
