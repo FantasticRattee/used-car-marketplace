@@ -24,10 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const sellerFilter = (sellerType || "").toLowerCase();
 
         const matchKeyword =
-          !keywordLower ||
-          name.includes(keywordLower) ||
-          modelName.includes(keywordLower) ||
-          description.includes(keywordLower);
+        !keyword ||
+        name.includes(keywordLower) ||
+        modelName.includes(keywordLower) ||
+        brandName.includes(keywordLower) ||  // ✅ ADD THIS
+        description.includes(keywordLower);
 
         const matchBrand =
           !brandFilter ||

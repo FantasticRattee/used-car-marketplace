@@ -1,7 +1,15 @@
 //searchpage/script.js
 
+
 document.addEventListener('DOMContentLoaded', function () {
-  const brands = [
+  const brandGrid = document.getElementById('brandGrid');
+  const brandSelect = document.getElementById('brand');
+  const modelSelect = document.getElementById('model');
+  const searchInput = document.getElementById('searchKeyword');
+  const sellerTypeSelect = document.getElementById('sellerType');
+
+  // ✅ Static brand cards
+  const staticBrands = [
     { name: "Audi", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/de855507fc4a625b8daa690e08f7aeca8bfbb03d" },
     { name: "BMW", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/e8ad0641098bbea9d3f78cc96b7f8f1359fd12ce" },
     { name: "Porsche", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/7e1f9cf389e036a833487650fc3e0020fe451b96" },
@@ -10,9 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     { name: "Honda", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/48a02aa3fb6fced44d88452000933f29987048ec" }
   ];
 
-  // Show brand cards (still hardcoded)
-  const brandGrid = document.getElementById('brandGrid');
-  brands.forEach(brand => {
+  staticBrands.forEach(brand => {
     const card = document.createElement('div');
     card.className = 'brand-card';
     card.innerHTML = `
@@ -22,59 +28,59 @@ document.addEventListener('DOMContentLoaded', function () {
     brandGrid.appendChild(card);
   });
 
-  const brandSelect = document.getElementById('brand');
-  const modelSelect = document.getElementById('model');
-
-  // ✅ Populate brand dropdown from DB (doesn't affect card grid)
+  // ✅ Dynamic Brand Dropdown from DB
   fetch('/api/brands')
     .then(res => res.json())
     .then(data => {
-      data.forEach(brand => {
+      data.forEach(b => {
         const option = document.createElement("option");
-        option.value = brand.name;
-        option.textContent = brand.name;
+        option.value = b.name;
+        option.textContent = b.name;
         brandSelect.appendChild(option);
       });
     })
     .catch(err => console.error("❌ Failed to fetch brand list:", err));
 
+  // ✅ Auto-fill model dropdown on brand change
   brandSelect.addEventListener('change', async () => {
     const selectedBrand = brandSelect.value.trim().split(" ")[0];
+    modelSelect.innerHTML = `<option value="">Select Model</option>`;
 
-    if (!selectedBrand) {
-      modelSelect.innerHTML = `<option value="">Select Model</option>`;
-      return;
-    }
+    if (!selectedBrand) return;
 
     try {
-      const response = await fetch(`/api/models?brand=${encodeURIComponent(selectedBrand)}`);
-      const models = await response.json();
-
-      modelSelect.innerHTML = `<option value="">Select Model</option>` +
-        models.map(model => `<option value="${model}">${model}</option>`).join('');
-    } catch (error) {
-      console.error("Failed to fetch models:", error);
-      modelSelect.innerHTML = `<option value="">Select Model</option>`;
+      const res = await fetch(`/api/models?brand=${encodeURIComponent(selectedBrand)}`);
+      const models = await res.json();
+      models.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m;
+        opt.textContent = m;
+        modelSelect.appendChild(opt);
+      });
+    } catch (err) {
+      console.error("❌ Model fetch failed:", err);
     }
   });
 
-  document.getElementById('search-form').addEventListener('submit', function () {
-    const keyword = document.getElementById("searchKeyword").value;
+  // ✅ Submit search form with cleaned-up params
+  document.getElementById('search-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const keyword = searchInput.value.trim();
     const brand = brandSelect.value;
     const model = modelSelect.value;
-    const sellerType = document.getElementById("sellerType").value;
+    const sellerType = sellerTypeSelect.value;
 
-    const query = new URLSearchParams({
-      keyword,
-      brand,
-      model,
-      sellerType,
-    });
+    const query = new URLSearchParams();
+    if (keyword) query.set("keyword", keyword);
+    if (brand) query.set("brand", brand);
+    if (model) query.set("model", model);
+    if (sellerType) query.set("sellerType", sellerType);
 
     window.location.href = `/search-result?${query.toString()}`;
   });
 
-  document.getElementById('searchKeyword').addEventListener('input', function () {
+  // ✅ Log typing for debug
+  searchInput.addEventListener('input', function () {
     console.log("Searching:", this.value.toLowerCase());
   });
 });
