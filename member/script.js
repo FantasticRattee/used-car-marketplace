@@ -1,12 +1,12 @@
 
 const teamMembers = [
     {
-      name: "RATTEE WATPERATAM",
+      name: "Rattee Watperatam",
       id: "6688141",
       imageUrl: "https://cdn.builder.io/api/v1/image/assets/cc81e15a417a433793d315a36fddff83/879c1ea9057e7f293c75c37876fd7b475a8b5bbd",
     },
     {
-      name: "NARUEBORDINT VEANGNONT",
+      name: "Naruebordint Veangnont",
       id: "6688139",
       imageUrl: "https://cdn.builder.io/api/v1/image/assets/cc81e15a417a433793d315a36fddff83/bd815f6c95049114dacb1f362c320a153096509b",
     },

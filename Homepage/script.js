@@ -1,53 +1,3 @@
-// ✅ Car models for dropdown population
-const carModels = {
-  bmw: ["330", "520"],
-  mercedes: ["CLS53", "CLE53"],
-  honda: ["Accord", "Civic"],
-  toyota: ["Supra", "GR Corolla"],
-  audi: ["A3", "Q5"],
-  porsche: ["911", "Cayenne", "Panamera"],
-};
-
-// ✅ Car data to display in Explore Our Cars
-const carData = [
-  {
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/8474d84d3770d9f25e108081f8be87d998da340c?placeholderIfAbsent=true",
-    title: "2024 BMW 330Li 2.0 G28 M Sport Sedan - AT",
-    price: "2,190,000 THB",
-    mileage: "31,872 KM",
-  },
-  {
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/9975ea9b5bc7440307fc468df75380af13a8d476?placeholderIfAbsent=true",
-    title: "2025 Mercedes-Benz CLS53 3.0 W257 AMG 4MATIC+",
-    price: "4,590,000 THB",
-    mileage: "2,140 KM",
-  },
-  {
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/c8ced450e175d09839887ecec44f7dc93d0f124e?placeholderIfAbsent=true",
-    title: "2024 Honda Accord 2.0 e:HEV RS Sedan",
-    price: "1,499,000 THB",
-    mileage: "31,872 KM",
-  },
-  {
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/6f0e9de0739423708bdbe42963950899d55394db?placeholderIfAbsent=true",
-    title: "2024 BMW 520d 2.0 G30 M Sport Sedan",
-    price: "2,190,000 THB",
-    mileage: "31,872 KM",
-  },
-  {
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/37b28dbdc7a6f902f2ea5a0784444329d50c74d6?placeholderIfAbsent=true",
-    title: "2024 Mercedes-Benz CLE53 AMG 4MATIC+ Coupe",
-    price: "4,690,000 THB",
-    mileage: "0 KM",
-  },
-  {
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/94d54d119c753a0cba2a46e442e2a845de48a14b?placeholderIfAbsent=true",
-    title: "2023 Honda Civic 2.0 FL5 Type R Hatchback",
-    price: "3,650,000 THB",
-    mileage: "0 KM",
-  },
-];
-
 // ✅ Render static cars for Explore section
 function createCarCard(car) {
   return `
@@ -67,39 +17,87 @@ function createCarCard(car) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // ✅ Render all cars in Explore section
-  const carGrid = document.getElementById("carGrid");
-  if (carGrid) {
-    carGrid.innerHTML = carData.map(createCarCard).join("");
+  // ✅ Re-check login timeout
+  const loginTime = parseInt(localStorage.getItem("loginTime"), 10);
+  const now = Date.now();
+  const timeout = 30 * 60 * 1000; // 30 mins
+  const expired = isNaN(loginTime) || now - loginTime > timeout;
+
+  if (expired) {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+    localStorage.removeItem("loginTime");
   }
 
-  // ✅ Populate model dropdown based on brand
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const role = localStorage.getItem("role");
+
+  // ✅ Control Edit Car button
+  const editBtn = document.getElementById("editBtn");
+  if (editBtn) {
+    if (isLoggedIn && role === "superadmin") {
+      editBtn.addEventListener("click", () => {
+        window.location.href = "/product-add";
+      });
+    } else {
+      editBtn.style.opacity = 0.5;
+      editBtn.style.pointerEvents = "auto";
+      editBtn.title = "Only superadmin can access this feature";
+      editBtn.addEventListener("click", () => {
+        alert("⚠️ Please login as superadmin to access this feature.");
+      });
+    }
+  }
+
+  // ✅ Load car cards
+  const carGrid = document.getElementById("carGrid");
+  if (carGrid) {
+    fetch("/api/cars")
+      .then(res => res.json())
+      .then(data => {
+        const cards = data.map(car => createCarCard({
+          image: car.image || car.image_1,
+          title: `${car.year} ${car.name} ${car.model}`,
+          price: `${car.price} THB`,
+          mileage: `${car.mileage} KM`
+        })).join("");
+        carGrid.innerHTML = cards;
+      })
+      .catch(err => console.error("❌ Failed to fetch car grid:", err));
+  }
+
+  // ✅ Handle brand dropdown
   const brandSelect = document.getElementById("brand");
   const modelSelect = document.getElementById("model");
 
   if (brandSelect && modelSelect) {
-    brandSelect.addEventListener("change", () => {
-      const selectedBrand = brandSelect.value.toLowerCase();
-      const models = carModels[selectedBrand] || [];
-      modelSelect.innerHTML = `<option value="">Select Model</option>`;
-      models.forEach((model) => {
-        const opt = document.createElement("option");
-        opt.value = model.toLowerCase();
-        opt.textContent = model;
-        modelSelect.appendChild(opt);
-      });
+    brandSelect.addEventListener("change", async () => {
+      const selectedBrand = brandSelect.value;
+      if (!selectedBrand) {
+        modelSelect.innerHTML = `<option value="">Select Model</option>`;
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/models?brand=${encodeURIComponent(selectedBrand)}`);
+        const models = await response.json();
+        modelSelect.innerHTML = `<option value="">Select Model</option>` +
+          models.map(model => `<option value="${model}">${model}</option>`).join("");
+      } catch (error) {
+        console.error("Failed to fetch models:", error);
+        modelSelect.innerHTML = `<option value="">Select Model</option>`;
+      }
     });
   }
 
-  // ✅ Redirect search form to result page
+  // ✅ Redirect search form
   const searchForm = document.getElementById("search-form");
   if (searchForm) {
     searchForm.addEventListener("submit", (e) => {
-      e.preventDefault(); // ✅ Fix: prevent default form behavior
+      e.preventDefault();
       const brand = brandSelect?.value || "";
       const model = modelSelect?.value || "";
       const sellerType = document.getElementById("sellerType")?.value || "";
-
       const query = new URLSearchParams({ brand, model, sellerType });
       window.location.href = `/searchpage-result?${query.toString()}`;
     });

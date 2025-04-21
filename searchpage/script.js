@@ -1,3 +1,4 @@
+//searchpage/script.js
 
 document.addEventListener('DOMContentLoaded', function () {
   const brands = [
@@ -9,16 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     { name: "Honda", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/48a02aa3fb6fced44d88452000933f29987048ec" }
   ];
 
-  const brandModels = {
-    "Audi": ["A4", "A6", "Q5"],
-    "BMW": ["330", "520", "X5"],
-    "Porche": ["911", "Cayenne", "Macan", "Panamera"],
-    "Mercedes Benz": ["C-Class", "GLE", "CLS"],
-    "Toyota": ["Yaris", "Altis", "Fortuner"],
-    "Honda": ["Civic", "Accord", "City"]
-  };
-
-  // Show brand cards
+  // Show brand cards (still hardcoded)
   const brandGrid = document.getElementById('brandGrid');
   brands.forEach(brand => {
     const card = document.createElement('div');
@@ -30,40 +22,59 @@ document.addEventListener('DOMContentLoaded', function () {
     brandGrid.appendChild(card);
   });
 
-  // Handle dynamic model updates
   const brandSelect = document.getElementById('brand');
   const modelSelect = document.getElementById('model');
 
-  brandSelect.addEventListener('change', () => {
-    const selectedBrand = brandSelect.value;
-    const models = brandModels[selectedBrand] || [];
-    modelSelect.innerHTML = `<option value="">Select Model</option>` + models.map(m => `<option value="${m}">${m}</option>`).join('');
+  // ✅ Populate brand dropdown from DB (doesn't affect card grid)
+  fetch('/api/brands')
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(brand => {
+        const option = document.createElement("option");
+        option.value = brand.name;
+        option.textContent = brand.name;
+        brandSelect.appendChild(option);
+      });
+    })
+    .catch(err => console.error("❌ Failed to fetch brand list:", err));
+
+  brandSelect.addEventListener('change', async () => {
+    const selectedBrand = brandSelect.value.trim().split(" ")[0];
+
+    if (!selectedBrand) {
+      modelSelect.innerHTML = `<option value="">Select Model</option>`;
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/models?brand=${encodeURIComponent(selectedBrand)}`);
+      const models = await response.json();
+
+      modelSelect.innerHTML = `<option value="">Select Model</option>` +
+        models.map(model => `<option value="${model}">${model}</option>`).join('');
+    } catch (error) {
+      console.error("Failed to fetch models:", error);
+      modelSelect.innerHTML = `<option value="">Select Model</option>`;
+    }
   });
 
-  const searchForm = document.getElementById('search-form');
-  // Optional: prevent form from reloading
-  searchForm.addEventListener('submit', function (event) {
-    // Build query string from form values
+  document.getElementById('search-form').addEventListener('submit', function () {
     const keyword = document.getElementById("searchKeyword").value;
-    const brand = document.getElementById("brand").value;
-    const model = document.getElementById("model").value;
+    const brand = brandSelect.value;
+    const model = modelSelect.value;
     const sellerType = document.getElementById("sellerType").value;
-  
+
     const query = new URLSearchParams({
       keyword,
       brand,
       model,
       sellerType,
     });
-  
+
     window.location.href = `/search-result?${query.toString()}`;
   });
 
-
   document.getElementById('searchKeyword').addEventListener('input', function () {
-    const keyword = this.value.toLowerCase();
-    console.log("Searching:", keyword);
-    // You can now filter carData based on title, rating, etc.
+    console.log("Searching:", this.value.toLowerCase());
   });
-
 });

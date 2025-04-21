@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("img2").src = car.image_2;
       document.getElementById("url3").value = car.image_3;
       document.getElementById("img3").src = car.image_3;
-      document.getElementById("type").value = car.type;
+      document.getElementById("type").value = car.type.charAt(0).toUpperCase() + car.type.slice(1).toLowerCase();
       document.getElementById("name").value = car.name;
       document.getElementById("model").value = car.model;
       document.getElementById("mileage").value = car.mileage;
@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("owner-name").value = car.owner_name || "";
       document.getElementById("owner-surname").value = car.owner_surname || "";
       document.getElementById("phone-number").value = car.phone_number || "";
+
+      // ✅ Fix: Set brand dropdown
+      document.getElementById("brand").value = car.brand;
     }
   });
 
@@ -51,7 +54,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       image_1: document.getElementById("url1").value,
       image_2: document.getElementById("url2").value,
       image_3: document.getElementById("url3").value,
-      type: document.getElementById("type").value.toLowerCase(), // convert to 'dealer' or 'private'
+      type: document.getElementById("type").value,
+      brand: document.getElementById("brand").value,
       name: document.getElementById("name").value,
       model: document.getElementById("model").value,
       mileage: document.getElementById("mileage").value,

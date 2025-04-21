@@ -31,22 +31,25 @@
               alt="Logo"
               class="logo"
             />
+
             <!-- Big Home button -->
-            <!-- <a href="/" class="nav-link">Home</a> -->
             <div class="nav-buttons">
 
-              <!-- <button class="nav-button">Search</button> -->
-              <!-- <button class="nav-button">Members</button> -->
+
               <div class="nav-item" onclick="window.location.href='/'">Home</div>
               <div class="nav-item" onclick="window.location.href='/search'">Search</div>
-              <!-- <button class="nav-button" onclick="window.location.href='/login'">LOGIN</button> -->
+              <div class="nav-item" onclick="window.location.href='/member'">Members</div>
+              <div class="nav-item" id="logoutBtn">Logout</div>
 
               
             </div>
           </div>
+
           <div class="header-right">
 
-            <button class="btn btn-yellow" onclick="window.location.href='/product-add'">Edit Car Selling/ADD</button>
+            <!-- <button class="btn btn-yellow" onclick="window.location.href='/product-add'">Edit Car Selling/ADD</button> -->
+            <button class="btn btn-yellow" id="editBtn">Edit Car Selling/ADD</button>
+
 
             <!-- <button class="btn btn-red">LOGIN</button> -->
             <button class="btn btn-red" onclick="window.location.href='/login'">LOGIN</button>
@@ -159,6 +162,21 @@
       });
     </script>
 
+  <!-- Logout -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("role");
+          localStorage.removeItem("loginTime");
+          window.location.href = "/homepage"; // ✅ Redirect after clearing
+        });
+      }
+    });
+  </script>
 
 
   </body>
