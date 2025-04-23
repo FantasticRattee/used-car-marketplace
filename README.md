@@ -63,4 +63,4 @@ npm start
       database: "USEDCAR3" // change to your real DB
   });
   ```
-  - When you first loaded/cloned from Github, make sure you have run the database in mysql first.
+- When you first loaded/cloned from Github, make sure you have run the database in mysql first.
