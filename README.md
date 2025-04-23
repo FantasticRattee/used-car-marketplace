@@ -11,7 +11,7 @@ ONE2CAR is a featured car selling web application that allows users to browse, l
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: HTML, CSS, JavaScrip
+- **Frontend**: HTML, CSS, JavaScripะ
 - **Backend**: Node.js + Express.js
 - **Database**: MySQL
 
