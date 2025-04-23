@@ -44,3 +44,23 @@ cp .env.example .env
 
 # Start the server
 npm start
+```
+## 📦 Extra Remark
+- In server.js & seed.js need to change password to YOUR database's password
+  ```server.js
+  const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "Your_PASSWORD", <--Change this password
+  database: "USEDCAR3"  // change to your real DB
+  });
+  ```
+  ```seed.js
+    const db = await mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "Your_PASSWORD", <--Change this password
+      database: "USEDCAR3" // change to your real DB
+  });
+  ```
+  - When you first loaded/cloned from Github, make sure you have run the database in mysql first.
