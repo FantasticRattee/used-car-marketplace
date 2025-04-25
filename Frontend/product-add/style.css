@@ -1,0 +1,265 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Main container */
+.main-container {
+  background-color: #050B20;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  padding: 33px 5rem 75px;
+}
+
+/* Content wrapper */
+.content-wrapper {
+  width: 100%;
+  max-width: 1232px;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  max-width: 769px;
+  gap: 5px;
+  color: white;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  align-items: stretch;
+  gap: 48px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  margin-top: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #d1d1d1;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-right: 40px;
+}
+
+/* Vehicle section */
+.vehicle-section {
+  background-color: white;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  padding: 35px 44px;
+  border-radius: 20px;
+}
+
+/* Image upload container */
+.image-upload-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-top: -50px;
+}
+
+.image-upload-area {
+  flex: 1;
+  background-color: white;
+  border: 1px dashed black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  
+}
+
+.upload-placeholder {
+  aspect-ratio: 1.42;
+  object-fit: contain;
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.upload-url-input {
+  width: 100%;
+  max-width: 200px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Form styles */
+.vehicle-form {
+  width: 100%;
+  margin-top: 64px;
+}
+
+.form-row {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: fit-content;
+}
+
+.dropdown-image {
+  aspect-ratio: 5.29;
+  object-fit: contain;
+  width: 328px;
+}
+
+.helper-text {
+  color: #9E9E9E;
+  font-size: 12px;
+  font-weight: normal;
+  margin-top: 5px;
+  padding-left: 16px;
+}
+
+/* Form field styles */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.form-label {
+  position: relative;
+  background-color: white;
+  z-index: 10;
+  margin-top: -7px;
+  font-size: 12px;
+  color: #5E6368;
+  line-height: 1;
+  padding: 0 4px;
+  display: inline-block;
+  margin-left: 12px;
+  width: fit-content;
+}
+
+.form-input,
+.form-textarea {
+  gap: 4px;
+  font-size: 16px;
+  color: #384048;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.form-textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.description-field {
+  margin-top: 20px;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+}
+
+.counter {
+  color: #5E6368;
+  font-size: 12px;
+  text-align: right;
+  padding-right: 16px;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  width: 358px;
+  max-width: 100%;
+  align-items: stretch;
+  gap: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  justify-content: flex-start;
+  margin-left: 900px;
+  margin-top: 51px;
+}
+
+.modify-btn {
+  align-self: stretch;
+  background: transparent;
+  min-height: 48px;
+  gap: 4px;
+  color: #7949FF;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  
+}
+
+.save-btn {
+  align-self: stretch;
+  background-color: #7949FF;
+  min-height: 48px;
+  gap: 4px;
+  color: white;
+  white-space: nowrap;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 33px 20px 75px;
+  }
+
+  .image-upload-container {
+    flex-direction: column;
+  }
+
+  .image-upload-area {
+    width: 100%;
+    margin-top: 10px;
+    padding: 35px 20px;
+  }
+
+  .form-row {
+    gap: 20px;
+  }
+
+  .action-buttons {
+    margin-right: 10px;
+    margin-top: 40px;
+  }
+}

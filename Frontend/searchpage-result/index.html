@@ -1,0 +1,43 @@
+<!-- seachpage-result/index.hrml -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Used Cars</title>
+    <meta name="description" content="Used Car Marketplace" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/searchpage-result/style.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <header>
+        <div class="header-main">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/fd4ea47600148383597968bf7b1c644d04243f31"
+            class="logo"
+            alt="Used Car Logo"
+          />
+          <nav>
+            <div class="nav-item" onclick="window.location.href='/homepage'">Home</div> <!-- ✅ Fix -->
+            <div class="nav-item" onclick="window.location.href='/search'">Search</div> <!-- ✅ Fix -->
+          </nav>
+          <div class="header-buttons">
+            <button class="btn btn-yellow" onclick="window.location.href='/product-add'">Edit Car Selling/ADD</button>
+            <button class="btn btn-red" onclick="window.location.href='/login'">LOGIN</button>
+          </div>
+        </div>
+        <div class="header-divider"></div>
+      </header>
+
+      <main class="car-grid" id="car-container">
+        <!-- Car cards will be inserted here by JavaScript -->
+      </main>
+    </div>
+
+    <script src="/searchpage-result/script.js"></script>
+  </body>
+</html>

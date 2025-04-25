@@ -1,0 +1,256 @@
+<!-- product-modify/index -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Management</title>
+    <meta name="description" content="Vehicle Management System" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <main class="main-container">
+      <div class="content-wrapper">
+        <header class="header">
+          <nav class="nav">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/search" class="nav-link">Search</a>
+          </nav>
+          <h1 class="page-title">MODIFY VEHICLE</h1>
+        </header>
+
+        <section class="vehicle-section">
+          <form class="vehicle-form" id="vehicle-form">
+
+
+            <div class="image-upload-container">
+              <div class="image-upload-area" id="upload-area-1">
+                <img id="img1" class="upload-placeholder"
+                  src="https://cdn.builder.io/api/v1/image/assets/cc81e15a417a433793d315a36fddff83/1cc608195b52dbf14edbd44f74c6ed7c304cf1f1?placeholderIfAbsent=true" />
+                <input type="text" id="url1" placeholder="URL of image 1..." class="form-input" />
+                <div class="helper-text">0/100</div>
+              </div>
+            
+              <div class="image-upload-area" id="upload-area-2">
+                <img id="img2" class="upload-placeholder"
+                  src="https://cdn.builder.io/api/v1/image/assets/cc81e15a417a433793d315a36fddff83/1cc608195b52dbf14edbd44f74c6ed7c304cf1f1?placeholderIfAbsent=true" />
+                <input type="text" id="url2" placeholder="URL of image 2..." class="form-input" />
+                <div class="helper-text">0/100</div>
+              </div>
+            
+              <div class="image-upload-area" id="upload-area-3">
+                <img id="img3" class="upload-placeholder"
+                  src="https://cdn.builder.io/api/v1/image/assets/cc81e15a417a433793d315a36fddff83/1cc608195b52dbf14edbd44f74c6ed7c304cf1f1?placeholderIfAbsent=true" />
+                <input type="text" id="url3" placeholder="URL of image 3..." class="form-input" />
+                <div class="helper-text">0/100</div>
+              </div>
+            </div>
+
+
+            
+
+<!-- Form row -->
+<!-- ✅ New row just for car selection -->
+            <div class="form-row">
+              <div class="form-group form-field">
+                <div class="form-label">Select vehicle to edit</div>
+                <select id="carSelector" class="form-input">
+                  <option value="">Select a car...</option>
+                </select>
+                <div class="helper-text">Select existing car to load details</div>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="form-group form-field">
+                <div class="form-label">Name</div>
+                <input type="text" id="name" placeholder="Car name?" class="form-input" />
+                <div class="helper-text">Vehicle model name?</div>
+              </div>
+
+
+              
+              <!-- <div class="form-group form-field">
+                <div class="form-label">Select vehicle to edit</div>
+                <select id="carSelector" class="form-input">
+                  <option value="">Select a car...</option>
+                </select>
+                <div class="helper-text">Select existing car to load details</div>
+              </div> -->
+              
+            
+              <div class="form-group form-field">
+                <div class="form-label">Brand</div>
+                <select id="brand" class="form-input">
+                  <option value="">Select Brand</option>
+                  <option value="BMW">BMW</option>
+                  <option value="Mercedes Benz">Mercedes Benz</option>
+                  <option value="Audi">Audi</option>
+                  <option value="Porsche">Porsche</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Honda">Honda</option>
+                  <option value="Subaru">Subaru</option>
+                  <option value="Nissan">Nissan</option>
+                  <option value="Bentley">Bentley</option>
+                  <option value="Rolls Royce">Rolls Royce</option>
+                  <option value="lamborghini">lamborghini</option>
+                  <option value="ferrari">ferrari</option>
+                  <option value="mclaren">mclaren</option>
+                  <option value="volkswagen">volkswagen</option>
+                  <option value="Ford">Ford</option>
+                  <option value="Land Rover">Land Rover</option>
+                  <option value="Dodge">Dodge </option>
+                </select>
+                <div class="helper-text">BMW? Mercedes? ...</div>
+              </div>
+            
+              <div class="form-group form-field">
+                <div class="form-label">Transmission</div>
+                <select id="transmission" class="form-input">
+                  <option>Automatic</option>
+                  <option>Manual</option>
+                </select>
+                <div class="helper-text">Gear system (Transmission)?</div>
+              </div>
+            
+              <div class="form-group form-field">
+                <div class="form-label">Fuel Type</div>
+                <select id="fuelType" class="form-input">
+                  <option>Petrol</option>
+                  <option>Diesel</option>
+                  <option>Petrol Hybrid</option>
+                  <option>Diesel Hybrid</option>
+                  <option>Hybrid</option>
+                  <option>Electric</option>
+                </select>
+                <div class="helper-text">What fuel type is your vehicle?</div>
+              </div>
+
+              <div class="form-group form-field">
+                <div class="form-label">Seller Type?</div>
+                <select id="type" class="form-input">
+                  <option>Dealer</option>
+                  <option>Private</option>
+                </select>
+                <div class="helper-text">What fuel type is your vehicle?</div>
+              </div>
+
+
+              <div class="form-group form-field">
+                <div class="form-label">Owner Name</div>
+                <input type="text" id="owner-name" placeholder="Your Name?" class="form-input" />
+                <div class="helper-text">Name of the owner...</div>
+              </div>
+
+              <div class="form-group form-field">
+                <div class="form-label">Owner Surname</div>
+                <input type="text" id="owner-surname" placeholder="Your Surname?" class="form-input" />
+                <div class="helper-text">Surname of owner...</div>
+              </div>
+
+              <div class="form-group form-field">
+                <div class="form-label">Phone number</div>
+                <input type="number" id="phone-number" placeholder="Your phone number" class="form-input" />
+              <div class="helper-text">What is your contact?</div>
+
+
+            </div>
+
+            
+            <div class="form-row">
+
+              <div class="form-group form-field">
+                <div class="form-label">Price</div>
+                <input type="text" id="price" placeholder="$$$" class="form-input" />
+                <div class="helper-text">How much is your car?</div>
+              </div>
+
+
+              <div class="form-group form-field">
+                <div class="form-label">Model</div>
+                <input type="text" id="model" name="model" placeholder="Model" class="form-input" />
+                <div class="helper-text">What model is your vehicle?</div>
+              </div>
+              <div class="form-group form-field">
+                <div class="form-label">Year</div>
+                <select id="year" class="form-input">
+                  <option>2025</option>
+                  <option>2024</option>
+                  <option>2023</option>
+                  <option>2022</option>
+                  <option>2021</option> 
+                  <option>2020</option>
+                  <option>2019</option>
+                  <option>2018</option>
+                  <option>2017</option>
+                  <option>2016</option>
+                  <option>2015</option>
+                  <option>2014</option>
+                  <option>2013</option>
+                  <option>2012</option>
+                  <option>2011</option>
+                  <option>2010</option>
+                  <option>2009</option>
+                  <option>2008</option>
+                  <option>2007</option>
+                  <option>2006</option>
+                  <option>2005</option>
+                  <option>2004</option>
+                  <option>2003</option>
+                  <option>2002</option>
+                  <option>2001</option>
+                  <option>2000</option>
+                </select>
+                <div class="helper-text">How old is your car?</div>
+              </div>
+              <div class="form-group form-field">
+                <div class="form-label">Meter</div>
+                <select id="mileage" class="form-input">
+                  <option>0-5k</option>
+                  <option>5-10k</option>
+                  <option>10-15k</option>
+                  <option>15-20k</option>
+                  <option>20-25k</option>
+                  <option>25-30k</option>
+                  <option>35-40k</option>
+                  <option>40-45k</option>
+                  <option>45-50k</option>
+                  <option>55-60k</option>
+                  <option>65-70k</option>
+                  <option>70-75k</option>
+                  <option>75-80k</option>
+                  <option>80-85k</option>
+                  <option>85-90k</option>
+                  <option>90-95k</option>
+                  <option>95-100k</option>
+                </select>
+                <div class="helper-text">Distance driven</div>
+              </div>
+            </div>
+<!-- Form row end -->
+
+            <div class="form-group form-field description-field">
+              <div class="form-label">Description</div>
+              <textarea id="description" name="description" placeholder="Description" class="form-textarea"></textarea>
+              <div class="form-footer">
+                <div class="helper-text">Maintenance record? any crashed? Option?</div>
+                <div class="counter">10/600</div>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button type="button" class="delete-btn" id="deleteBtn">Delete</button>
+              <button type="submit" class="save-btn" id="saveBtn">Save</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+
+</html>

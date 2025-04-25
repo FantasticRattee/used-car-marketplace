@@ -1,0 +1,206 @@
+<!-- Homepage/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Marketplace</title>
+    <meta name="description" content="Car Marketplace" />
+    <meta name="author" content="Car Marketplace" />
+    <!--  -->
+    <link rel="stylesheet" href="styles.css">      
+    <!--  -->
+    <meta property="og:title" content="Car Marketplace" />
+    <meta property="og:description" content="Car Marketplace" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@car_marketplace" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
+
+  <!-- PASTE HERE? -->
+
+  <body>
+    <!-- Header Section -->
+    <header class="header">
+      <div class="header-container">
+        <div class="header-content">
+          <div class="header-left">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/95015a28c63bf87c0499879920000ea09f177fcc?placeholderIfAbsent=true"
+              alt="Logo"
+              class="logo"
+            />
+
+            <!-- Big Home button -->
+            <div class="nav-buttons">
+
+
+              <div class="nav-item" onclick="window.location.href='/'">Home</div>
+              <div class="nav-item" onclick="window.location.href='/search'">Search</div>
+              <div class="nav-item" onclick="window.location.href='/member'">Members</div>
+              <div class="nav-item" id="logoutBtn" style="display: none;">Logout</div>
+
+              
+            </div>
+          </div>
+
+          <div class="header-right">
+
+            <!-- <button class="btn btn-yellow" onclick="window.location.href='/product-add'">Edit Car Selling/ADD</button> -->
+            <button class="btn btn-yellow" id="editBtn">Edit Car Selling/ADD</button>
+
+
+            <!-- <button class="btn btn-red">LOGIN</button> -->
+            <button class="btn btn-red" onclick="window.location.href='/login'">LOGIN</button>
+
+          </div>
+        </div>
+        <div class="header-border"></div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="hero-section">
+        <div class="hero-image-container">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c3207d8e877b1c086d83018dd14a5246c88d4ea3?placeholderIfAbsent=true"
+            alt="Hero"
+            class="hero-image"
+          />
+        </div>
+        <div class="search-panel-container">
+
+          <div class="search-banner-svg">
+            <svg width="560" height="870" viewBox="0 0 720 1024" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-overlay">
+              <g clip-path="url(#clip0_2001_364)">
+                <text fill="url(#paint0_linear_2001_364)" xml:space="preserve" style="white-space: pre" font-family="Poppins" font-size="72" font-style="italic" font-weight="300" letter-spacing="0em">
+                  <tspan x="89" y="450">Find Your </tspan>
+                  <tspan x="89" y="550">Next Drive </tspan>
+                  <tspan x="89" y="650">with Confidence</tspan>
+                  <tspan x="89" y="750">Now!</tspan>
+                </text>
+                <g filter="url(#filter0_f_2001_364)">
+                  <circle cx="189.5" cy="954.5" r="189.5" fill="#2D55FB" />
+                </g>
+                <g filter="url(#filter1_f_2001_364)">
+                  <circle cx="774.5" cy="53.5" r="189.5" fill="#2D55FB" />
+                </g>
+              </g>
+              <defs>
+                <filter id="filter0_f_2001_364" x="-550" y="215" width="1479" height="1479" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                  <feGaussianBlur stdDeviation="275" result="effect1_foregroundBlur_2001_364" />
+                </filter>
+                <filter id="filter1_f_2001_364" x="35" y="-686" width="1479" height="1479" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                  <feGaussianBlur stdDeviation="275" result="effect1_foregroundBlur_2001_364" />
+                </filter>
+                <linearGradient id="paint0_linear_2001_364" x1="373" y1="459" x2="373" y2="660" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="white" />
+                  <stop offset="1" stop-color="white" stop-opacity="0.44" />
+                </linearGradient>
+                <clipPath id="clip0_2001_364">
+                  <rect width="720" height="1025" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+
+
+
+        </div>
+      </div>
+    </main>
+
+    <!-- Car Grid Section -->
+    <section class="car-grid-section">
+      <h2 class="car-grid-title">Explore Our Cars</h2>
+      <div class="car-grid" id="carGrid">
+        <!-- Car cards will be inserted here by JavaScript -->
+      </div>
+    </section>
+
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <!--  -->
+    <script src="script.js"></script>
+    <!--  -->
+
+
+    <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    const logoutBtn = document.getElementById("logoutBtn");
+    const loginBtn = document.querySelector(".btn-red");
+    const editBtn = document.getElementById("editBtn");
+
+    // 🔐 Login state check
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const role = localStorage.getItem("role");
+
+    // 🔘 Show/hide buttons
+    if (isLoggedIn) {
+      logoutBtn.style.display = "block";
+      if (loginBtn) loginBtn.style.display = "none";
+
+      // Enable edit only for superadmin
+      if (role === "superadmin") {
+        editBtn.addEventListener("click", () => {
+          window.location.href = "/product-add";
+        });
+      } else {
+        editBtn.style.opacity = 0.5;
+        editBtn.title = "Only superadmin can access this feature";
+        editBtn.addEventListener("click", () => {
+          alert("⚠️ Please login as superadmin to access this feature.");
+        });
+      }
+    } else {
+      logoutBtn.style.display = "none";
+      if (loginBtn) loginBtn.style.display = "inline-block";
+
+      // Disable Edit button entirely
+      editBtn.style.opacity = 0.5;
+      editBtn.title = "Please login to access";
+      editBtn.addEventListener("click", () => {
+        alert("⚠️ Please login as superadmin to access this feature.");
+      });
+    }
+
+    // 🔴 Logout logic
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("role");
+      localStorage.removeItem("loginTime");
+      window.location.href = "/homepage";
+    });
+  });
+
+    </script>
+
+  <!-- Logout -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("role");
+          localStorage.removeItem("loginTime");
+          window.location.href = "/homepage"; // ✅ Redirect after clearing
+        });
+      }
+    });
+  </script>
+
+
+  </body>
+</html>
