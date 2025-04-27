@@ -37,30 +37,22 @@ npm install body-parser
 npm install express
 npm install mysql2
 npm install nodemon
+npm install dotenv
 
 # Set up environment variables
-cp .env.example .env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=YOUR _DB_Password #<-- YOUR DB Password
+DB_NAME=USEDCAR3
 # Edit .env to match your configuration
 
-# Start the server
+# Start the server, you need to opne 2 terminals
+- In Frontend folder
+cd ./Frontend
+npm start
+- In Backend
+cd ./Backend
 npm start
 ```
 ## 📦 Extra Remark
-- In server.js & seed.js need to change password to YOUR database's password
-  ```server.js
-  const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Your_PASSWORD", <--Change this password
-  database: "USEDCAR3"  // change to your real DB
-  });
-  ```
-  ```seed.js
-    const db = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "Your_PASSWORD", <--Change this password
-      database: "USEDCAR3" // change to your real DB
-  });
-  ```
-- When you first loaded/cloned from Github, make sure you have run the database in mysql first.
+
