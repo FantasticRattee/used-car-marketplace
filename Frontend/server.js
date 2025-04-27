@@ -16,7 +16,7 @@ app.use("/product-modify", express.static(path.join(__dirname, "product-modify")
 app.use("/member", express.static(path.join(__dirname, "member")));
 
 // ✅ Routes
-app.get("/", (req, res) => res.redirect("/"));
+app.get("/", (req, res) => res.redirect("/Homepage"));
 app.get("/homepage", (req, res) => res.sendFile(path.join(__dirname,"Homepage", "index.html")));
 app.get("/login", (req, res) => res.sendFile(path.join(__dirname, "Login", "index.html")));
 app.get("/search", (req, res) => res.sendFile(path.join(__dirname, "searchpage", "index.html")));
