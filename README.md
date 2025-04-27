@@ -46,7 +46,7 @@ DB_PASSWORD=YOUR _DB_Password #<-- YOUR DB Password
 DB_NAME=USEDCAR3
 # Edit .env to match your configuration
 
-# Start the server, you need to opne 2 terminals
+# Start the server, you need to open 2 terminals
 - In Frontend folder
 cd ./Frontend
 npm start
