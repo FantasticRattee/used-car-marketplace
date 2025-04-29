@@ -52,7 +52,7 @@ cd ./Backend
 npm start
 ```
 ## 📦 Demo
-1. Open terminal. <br/>![open terminal](/ReadME Demo/1.png)
+1. Open terminal. <br/>![open terminal](ReadME Demo/1.png)
 2. Add another terminal. <br/>
 3. For the first terminal, key `cd .\sec1_gr12_fe_src\` and then `npm start`. <br/> ![open terminal](/ReadME Demo/1.png) and output should be like this
 4. For the second terminal, key `cd .\sec1_gr12_ws_src\` and then `npm start`. <br/> ![open terminal](/ReadME Demo/1.png) and output should be like this
