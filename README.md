@@ -59,6 +59,6 @@ npm start
 5. In website(use frontend port), this is the homepage </br> ![homepage](ReadME_Demo/6.png)
 6. If you want to be able to use "Edit Car Selling/ADD" button. </br> ![add](ReadME_Demo/add_product.png) </br> First you have to login. </br> ![login](ReadME_Demo/Login.png) ![login_page](ReadME_Demo/Login2.png)
 7. After you logged in, you will sent to homepage with navigate bar include of search, member and logout. </br> ![afterLogin](ReadME_Demo/afterLogin.png)
-8. For searching page, you can specify the criteria of product you want such as name, model, brand and seller type. </br> ![search_page](ReadME_Demo/searchpage.png) ![brand](ReadMe_Demo/searchpage_Brand.png) ![seller](ReadME_Demo/searchpage_seller.png)
+8. For searching page, you can specify the criteria of product you want such as name, model, brand and seller type. </br> ![search_page](ReadME_Demo/searchpage.png) ![brand](ReadME_Demo/searchpage_Brand.png) ![seller](ReadME_Demo/searchpage_seller.png)
 9. When you click "Go View", you will sent to searching result page and you can select the available product to view the detail. </br> ![search_result](ReadME_Demo/search_result.png)
 10. In detail page, you can edit/update that specific product. </br> ![detail](ReadME_Demo/detail.png) ![sp_modify](ReadME_Demo/specific_modify.png)
