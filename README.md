@@ -2,8 +2,6 @@
 
 ONE2CAR is a featured car selling web application that allows users to browse, list, and manage car listings. Dealers and individual sellers can register and post vehicles for sale, while buyers can filter and view listings with detailed specifications and images.
 
-
-![Homepage](https://your-demo-image-url.com)
 ---
 
 ## 🛠️ Tech Stack
@@ -30,10 +28,9 @@ ONE2CAR is a featured car selling web application that allows users to browse, l
 # Clone the repository
 
 # Install dependencies
-npm install body-parser
+npm install cors
 npm install express
 npm install mysql2
-npm install nodemon
 npm install dotenv
 
 # Set up environment variables
@@ -45,10 +42,10 @@ DB_NAME=USEDCAR3
 
 # Start the server, you need to open 2 terminals
 - In Frontend folder
-cd ./Frontend
+cd ./sec1_gr12_fe_src
 npm start
 - In Backend
-cd ./Backend
+cd ./sec1_gr12_ws_src
 npm start
 ```
 ## 📦 Demo
