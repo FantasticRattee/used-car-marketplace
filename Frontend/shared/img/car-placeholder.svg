@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Photo unavailable">
+  <rect width="400" height="300" fill="#E4E8EF"/>
+  <g fill="#C2C9D6">
+    <path d="M58 196c-6 0-10-4-10-10v-14c0-9 6-16 15-18l36-8 34-27c8-6 18-10 28-10h76c11 0 21 4 29 11l30 26 37 7c10 2 17 10 17 20v13c0 6-4 10-10 10z"/>
+  </g>
+  <g fill="#E4E8EF">
+    <path d="M148 128l20-16c5-4 11-6 17-6h28v22z"/>
+    <path d="M225 106h28c7 0 13 2 18 6l18 16h-64z"/>
+  </g>
+  <g fill="#8E99AD">
+    <circle cx="118" cy="196" r="26"/>
+    <circle cx="290" cy="196" r="26"/>
+  </g>
+  <g fill="#E4E8EF">
+    <circle cx="118" cy="196" r="10"/>
+    <circle cx="290" cy="196" r="10"/>
+  </g>
+  <text x="200" y="258" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="600" fill="#566176">Photo unavailable</text>
+</svg>

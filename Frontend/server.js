@@ -1,36 +1,89 @@
-// frontend/server.js
+"use strict";
+
+// ONE2CAR front-end server: serves the static pages and the shared design system on port 5500.
+
+const path = require("node:path");
 const express = require("express");
-const path = require("path");
+
+const PORT = Number(process.env.FRONTEND_PORT || process.env.PORT) || 5500;
+const API_BASE_URL = (process.env.API_BASE_URL || "http://localhost:8080").replace(/\/+$/, "");
+
+let apiOrigin;
+try {
+  apiOrigin = new URL(API_BASE_URL).origin;
+} catch {
+  console.error(`API_BASE_URL "${API_BASE_URL}" is not a valid URL (example: http://localhost:8080).`);
+  process.exit(1);
+}
+
+// URL path -> folder. Folder names keep their original (mixed) case; URLs are lower-case.
+const PAGES = {
+  homepage: "Homepage",
+  login: "Login",
+  search: "searchpage",
+  "search-result": "searchpage-result",
+  detail: "Detail",
+  "product-add": "product-add",
+  "product-modify": "product-modify",
+  member: "member",
+};
 
 const app = express();
-const PORT = 5500;
+app.disable("x-powered-by");
 
-// ✅ Serve static folders
-app.use("/Homepage", express.static(path.join(__dirname, "Homepage")));
-app.use("/Login", express.static(path.join(__dirname, "Login")));
-app.use("/searchpage", express.static(path.join(__dirname, "searchpage")));
-app.use("/searchpage-result", express.static(path.join(__dirname, "searchpage-result")));
-app.use("/detail", express.static(path.join(__dirname, "detail")));
-app.use("/product-add", express.static(path.join(__dirname, "product-add")));
-app.use("/product-modify", express.static(path.join(__dirname, "product-modify")));
-app.use("/member", express.static(path.join(__dirname, "member")));
+app.use((req, res, next) => {
+  res.set({
+    "Content-Security-Policy": [
+      "default-src 'self'",
+      `connect-src 'self' ${apiOrigin}`,
+      "img-src 'self' https: http: data:",
+      "style-src 'self' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "script-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+    ].join("; "),
+    "X-Content-Type-Options": "nosniff",
+    // Listing photos are hot-linked from image hosts that reject unknown referrers.
+    "Referrer-Policy": "no-referrer",
+  });
+  next();
+});
 
-// ✅ Routes
-app.get("/", (req, res) => res.redirect("/Homepage"));
-app.get("/homepage", (req, res) => res.sendFile(path.join(__dirname,"Homepage", "index.html")));
-app.get("/login", (req, res) => res.sendFile(path.join(__dirname, "Login", "index.html")));
-app.get("/search", (req, res) => res.sendFile(path.join(__dirname, "searchpage", "index.html")));
-app.get("/search-result", (req, res) => res.sendFile(path.join(__dirname, "searchpage-result", "index.html")));
-app.get("/detail", (req, res) => res.sendFile(path.join(__dirname, "detail", "index.html")));
-app.get("/product-add", (req, res) => res.sendFile(path.join(__dirname, "product-add", "index.html")));
-app.get("/product-modify", (req, res) => res.sendFile(path.join(__dirname, "product-modify", "index.html")));
-app.get("/member", (req, res) => res.sendFile(path.join(__dirname, "member", "index.html")));
-app.get("/Logout", (req, res) => res.redirect("/homepage"));
+// Lets the pages find the API without hard-coding its URL in every script.
+app.get("/config.js", (req, res) => {
+  res
+    .type("application/javascript")
+    .set("Cache-Control", "no-store")
+    .send(`window.ONE2CAR_API_BASE = ${JSON.stringify(API_BASE_URL)};\n`);
+});
 
+app.use("/shared", express.static(path.join(__dirname, "shared"), { index: false }));
 
-  
+for (const [route, folder] of Object.entries(PAGES)) {
+  const dir = path.join(__dirname, folder);
+  app.get(`/${route}`, (req, res) => res.sendFile(path.join(dir, "index.html")));
+  app.use(`/${route}`, express.static(dir, { index: false }));
+}
 
-// ✅ Start frontend server
-app.listen(PORT, () => {
-  console.log(`🌐 Frontend running at http://localhost:${PORT}`);
+// Old links from the first version of the site.
+const withQuery = (req, target) => target + (req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "");
+app.get("/", (req, res) => res.redirect("/homepage"));
+app.get("/searchpage", (req, res) => res.redirect(301, withQuery(req, "/search")));
+app.get("/searchpage-result", (req, res) => res.redirect(301, withQuery(req, "/search-result")));
+app.get("/logout", (req, res) => res.redirect("/homepage"));
+
+app.use((req, res) => {
+  res.status(404).type("text/plain").send("Page not found. Go to /homepage.");
+});
+
+const server = app.listen(PORT, () => {
+  console.log(`ONE2CAR front end running at http://localhost:${PORT}`);
+  console.log(`Pages call the API at ${API_BASE_URL}`);
+});
+server.on("error", (err) => {
+  console.error(`Front end could not listen on port ${PORT}: ${err.code || err.message}`);
+  process.exit(1);
 });

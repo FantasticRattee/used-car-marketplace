@@ -1,117 +1,68 @@
-<!-- searchpage/index.html -->
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Used Cars Marketplace</title>
-  <meta name="description" content="Find used cars from top brands" />
-  <link rel="stylesheet" href="/searchpage/styles.css" />
-  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-</head>
-<body>
-  <div class="container">
-    <header class="header">
-      <div class="logo">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/fd4ea47600148383597968bf7b1c644d04243f31" alt="Used Car Logo" />
-      </div>
-      <nav class="navigation">
-        <div class="nav-item" onclick="window.location.href='/homepage'">Home</div>
-        <div class="nav-item" onclick="window.location.href='/search'">Search</div>
-      </nav>
-      <div class="header-buttons">
-        <!-- <button class="yellow-button" onclick="window.location.href='/product-add'">Edit Car Selling/ADD</button> -->
-        <!-- <button class="red-button" onclick="window.location.href='/login'">LOGIN</button> -->
-      </div>
-    </header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search used cars | ONE2CAR</title>
+    <meta name="description" content="Search used cars by keyword, brand, model and seller type.">
+    <link rel="icon" href="/shared/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
+    <link rel="stylesheet" href="/shared/one2car.css">
+    <script src="/config.js"></script>
+    <script type="module" src="/search/script.js"></script>
+  </head>
+  <body data-page="search">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <div id="site-header"></div>
 
-    <main class="main-content">
-      <div class="brands-section">
-        <h2 class="section-title">BEST SELLER</h2>
-        <div class="brand-grid" id="brandGrid">
-          <!-- Brand cards injected via JS -->
-        </div>
-      </div>
+    <main id="main" tabindex="-1">
+      <div class="container">
+        <header class="page-head">
+          <h1 class="page-head__title">Search cars</h1>
+          <p class="page-head__lede">Narrow the list by keyword, brand, model or seller type. Leave a field on "Any" to include everything.</p>
+        </header>
 
-      <div class="search-section"> 
-        <form id="search-form" class="search-form" action="/search-result" method="GET">
-          <!-- Search box -->
-          <input
-            type="text"
-            id="searchKeyword"
-            name="keyword"
-            class="search-field-box"
-            placeholder="Search..."
-          />
-
-          <!-- Brand -->
-          <div class="form-control">
-            <div class="select-wrapper">
-              <select id="brand" name="brand" class="select-field">
-                <option value="">Select Brand</option>
-                <option value="Audi">Audi</option>
-                <option value="BMW">BMW</option>
-                <option value="Porsche">Porsche</option>
-                <option value="Mercedes Benz">Mercedes Benz</option>
-                <option value="Toyota">Toyota</option>
-                <option value="Honda">Honda</option>
-                <option value="Subaru">Subaru</option>
-                <option value="Nissan">Nissan</option>
-                <option value="Bentley">Bentley</option>
-                <option value="Rolls Royce">Rolls Royce</option>
-                <option value="lamborghini">lamborghini</option>
-                <option value="ferrari">ferrari</option>
-                <option value="mclaren">mclaren</option>
-                <option value="volkswagen">volkswagen</option>
-                <option value="Ford">Ford</option>
-                <option value="Land Rover">Land Rover</option>
-                <option value="Dodge">Dodge </option>
-              </select>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c"
-                class="dropdown-arrow"
-                alt="Dropdown arrow"
-              />
-            </div>
+        <form class="search-panel search-panel--full" id="search-form" action="/search-result" method="get" role="search" aria-label="Search used cars">
+          <div class="field field--keyword">
+            <label for="keyword">Keyword</label>
+            <input class="input" id="keyword" name="keyword" type="search" placeholder="Name, model or feature, e.g. hybrid" autocomplete="off">
           </div>
-
-          <!-- Model -->
-          <div class="form-control">
-            <div class="select-wrapper">
-              <select id="model" name="model" class="select-field">
-                <option value="">Select Model</option>
-              </select>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c"
-                class="dropdown-arrow"
-                alt="Dropdown arrow"
-              />
-            </div>
+          <div class="field">
+            <label for="brand">Brand</label>
+            <select class="select" id="brand" name="brand">
+              <option value="">Any brand</option>
+            </select>
           </div>
-
-          <!-- Seller Type -->
-          <div class="form-control">
-            <div class="select-wrapper">
-              <select id="sellerType" name="sellerType" class="select-field">
-                <option value="">Select Seller Type</option>
-                <option value="dealer">Dealer</option>
-                <option value="private">Private</option>
-              </select>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/954ac8b96d52f9ccf02b8d0e470cc6c398db6b0c"
-                class="dropdown-arrow"
-                alt="Dropdown arrow"
-              />
-            </div>
+          <div class="field">
+            <label for="model">Model</label>
+            <select class="select" id="model" name="model" disabled>
+              <option value="">Any model</option>
+            </select>
           </div>
-
-          <button type="submit" class="search-button">Go View</button>
+          <div class="field">
+            <label for="sellerType">Seller</label>
+            <select class="select" id="sellerType" name="sellerType">
+              <option value="">Any seller</option>
+              <option value="dealer">Dealer</option>
+              <option value="private">Private seller</option>
+            </select>
+          </div>
+          <button class="btn btn--primary search-panel__submit" type="submit">Show cars</button>
         </form>
       </div>
-    </main>
-  </div>
 
-  <script src="/searchpage/script.js"></script>
-</body>
+      <section class="section" aria-labelledby="brands-title">
+        <div class="container">
+          <div class="section__head">
+            <h2 class="section__title" id="brands-title">Or start with a brand</h2>
+          </div>
+          <ul class="brand-grid" id="brand-grid" aria-busy="true"></ul>
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+  </body>
 </html>

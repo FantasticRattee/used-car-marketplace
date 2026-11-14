@@ -1,4 +1,15 @@
+# Dependencies
 node_modules/
+
+# Local secrets: copy Backend/.env.example to Backend/.env
 .env
+.env.*
+!.env.example
+
+# OS / editor files
 .DS_Store
-*.sql
+.idea/
+.vscode/
+
+# Old duplicate of the project kept locally; it contains secrets. Do not publish.
+WEBDEV_ONE2CAR-main/

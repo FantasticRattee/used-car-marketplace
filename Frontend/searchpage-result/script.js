@@ -1,85 +1,100 @@
-//seachpage-result/script.js
+import {
+  initPage,
+  initSearchForm,
+  currentSearchValues,
+  searchUrl,
+  rememberSearch,
+  api,
+  el,
+  icon,
+  carCard,
+  plural,
+  skeletons,
+  stateBlock,
+  sellerTypeLabel,
+} from "/shared/app.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("car-container");
-  container.innerHTML = "";
+initPage();
 
-  const { keyword, brand, model, sellerType } = Object.fromEntries(
-    new URLSearchParams(window.location.search).entries()
-  );
+const values = currentSearchValues();
+const title = document.getElementById("results-title");
+const count = document.getElementById("results-count");
+const activeFilters = document.getElementById("active-filters");
+const results = document.getElementById("results");
+const grid = document.getElementById("results-grid");
 
-  fetch("http://localhost:8080/api/cars")
-    .then((res) => res.json())
-    .then((cars) => {
-      const filtered = cars.filter((car) => {
-        const name = (car.name || "").toLowerCase();
-        const modelName = (car.model || "").toLowerCase();
-        const brandName = (car.brand || "").toLowerCase();
-        const type = (car.type || "").toLowerCase();
-        const description = (car.description || "").toLowerCase();
+grid.append(...skeletons(6, "skeleton--card"));
+rememberSearch();
+initSearchForm(document.getElementById("filter-form"), { values, autoApply: true });
 
-        const keywordLower = (keyword || "").toLowerCase();
-        const modelFilter = (model || "").toLowerCase();
-        const brandFilter = (brand || "").toLowerCase();
-        const sellerFilter = (sellerType || "").toLowerCase();
+const heading = values.brand ? `${values.model ? `${values.brand} ${values.model}` : values.brand} for sale` : "Used cars for sale";
+title.textContent = heading;
+document.title = `${heading} | ONE2CAR`;
 
-        const matchKeyword =
-        !keyword ||
-        name.includes(keywordLower) ||
-        modelName.includes(keywordLower) ||
-        brandName.includes(keywordLower) ||  // ✅ ADD THIS
-        description.includes(keywordLower);
-
-        const matchBrand =
-          !brandFilter ||
-          brandName === brandFilter ||
-          name.includes(brandFilter); // ✅ Loosen brand match
-
-        const matchModel = !modelFilter || modelName === modelFilter;
-        const matchSeller = !sellerFilter || type === sellerFilter;
-
-        return matchKeyword && matchBrand && matchModel && matchSeller;
-      });
-
-      if (filtered.length === 0) {
-        container.textContent = "No results found.";
-        container.style.color = "white";
-        return;
-      }
-
-      filtered.forEach((car) => {
-        const card = document.createElement("article");
-        card.className = "car-card";
-        card.style.cursor = "pointer";
-        card.innerHTML = `
-          <div class="car-image-container">
-            <img src="${car.image || car.image_1}" class="car-image" alt="${car.name} ${car.model}">
-            <div class="car-badge ${car.type.toLowerCase() === "dealer" ? "dealer-badge" : "home-badge"}">${car.type.toUpperCase()} CAR</div>
-          </div>
-          <div class="car-details">
-            <h2 class="car-name">${car.name}</h2>
-            <p class="car-model">${car.model}</p>
-            <div class="car-specs">
-              <div class="spec-item"><i class="ti ti-gauge"></i><span>${car.mileage}</span></div>
-              <div class="spec-item"><i class="ti ti-gas-station"></i><span>${car.fuelType}</span></div>
-              <div class="spec-item"><i class="ti ti-manual-gearbox"></i><span>${car.transmission}</span></div>
-              <div class="spec-item"><i class="ti ti-calendar"></i><span>${car.year}</span></div>
-            </div>
-            <div class="car-price">${Number(car.price.toString().replace(/[^0-9]/g, "")).toLocaleString()} THB</div>
-            <div class="car-buttons">
-              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/dd483acca22299aabf69e45840220e3701aa2d84" class="contact-button" alt="Call">
-              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/e3d82424d065c20ac0dd2144591b9f0fb80c7b0b" class="contact-button" alt="Line">
-            </div>
-          </div>
-        `;
-        card.addEventListener("click", () => {
-          window.location.href = `/detail?id=${car.id}`;
-        });
-        container.appendChild(card);
-      });
+// Chips for each active filter; each one links to the same search without it.
+const FILTER_LABELS = {
+  keyword: (v) => `"${v}"`,
+  brand: (v) => v,
+  model: (v) => v,
+  sellerType: (v) => sellerTypeLabel(v),
+};
+const active = Object.keys(FILTER_LABELS).filter((key) => values[key]);
+if (active.length) {
+  const list = el(
+    "ul",
+    { class: "chips", "aria-label": "Active filters" },
+    active.map((key) => {
+      const without = { ...values, [key]: "" };
+      if (key === "brand") without.model = "";
+      return el(
+        "li",
+        {},
+        el(
+          "a",
+          { class: "chip", href: searchUrl(without), "aria-label": `Remove filter ${FILTER_LABELS[key](values[key])}` },
+          FILTER_LABELS[key](values[key]),
+          icon("close")
+        )
+      );
     })
-    .catch((err) => {
-      console.error("❌ Error fetching cars:", err);
-      container.textContent = "Error loading cars.";
-    });
-});
+  );
+  activeFilters.append(list, el("a", { class: "section__link", href: searchUrl({ sort: values.sort }), text: "Clear all" }));
+}
+
+const params = new URLSearchParams();
+if (values.keyword) params.set("q", values.keyword);
+if (values.brand) params.set("brand", values.brand);
+if (values.model) params.set("model", values.model);
+if (values.sellerType) params.set("type", values.sellerType);
+if (values.sort) params.set("sort", values.sort);
+
+try {
+  const cars = await api(`/api/cars${params.toString() ? `?${params}` : ""}`);
+  count.textContent = active.length ? `${plural(cars.length, "car")} match` : `${plural(cars.length, "car")} for sale`;
+  if (cars.length) {
+    grid.replaceChildren(...cars.map((car) => el("li", {}, carCard(car, { headingLevel: "h2" }))));
+  } else {
+    results.replaceChildren(
+      stateBlock({
+        title: "No cars match these filters",
+        text: "Remove a filter or try a shorter keyword. Brand and model must match exactly; keywords match any part of the name, model or description.",
+        actions: [
+          el("a", { class: "btn btn--dark", href: searchUrl({}) }, "Show all cars"),
+          el("a", { class: "btn btn--secondary", href: "/search" }, "Change search"),
+        ],
+      })
+    );
+  }
+} catch (err) {
+  count.textContent = "Listings could not load";
+  results.replaceChildren(
+    stateBlock({
+      title: "Listings could not load",
+      text: err.message,
+      tone: "error",
+      actions: [el("button", { class: "btn btn--dark", type: "button", onclick: () => location.reload() }, "Try again")],
+    })
+  );
+} finally {
+  results.removeAttribute("aria-busy");
+}

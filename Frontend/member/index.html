@@ -1,24 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Team</title>
-  <link rel="stylesheet" href="/member/styles.css">
-</head>
-<body>
-  <main class="main">
-    <header class="header">
-      <img src="https://cdn.builder.io/api/v1/image/assets/cc81e15a417a433793d315a36fddff83/49e7f1630a4af8bca2ed0452a28e712b807207fd" alt="Team logo" class="logo">
-      <h1 class="title">OUR TEAM MEMBERS</h1>
-    </header>
-    
-    <section class="team-grid">
-      <div class="team-grid-container">
-        <!-- Team members will be inserted here by JavaScript -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Team | ONE2CAR</title>
+    <meta name="description" content="The student team behind ONE2CAR and how the project is built.">
+    <link rel="icon" href="/shared/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
+    <link rel="stylesheet" href="/shared/one2car.css">
+    <script src="/config.js"></script>
+    <script type="module" src="/member/script.js"></script>
+  </head>
+  <body data-page="team">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <div id="site-header"></div>
+
+    <main id="main" tabindex="-1">
+      <div class="container">
+        <header class="page-head">
+          <h1 class="page-head__title">The team behind ONE2CAR</h1>
+          <p class="page-head__lede">ONE2CAR was built by a four-person student team as a web development course project.</p>
+        </header>
+
+        <ul class="team-grid" id="team-grid"></ul>
+
+        <section class="section" aria-labelledby="project-title">
+          <div class="section__head">
+            <h2 class="section__title" id="project-title">How the site is built</h2>
+          </div>
+          <div class="project-facts">
+            <p>The front end is plain HTML, CSS and JavaScript served by a small Express server. It talks to a separate Express REST API backed by MySQL.</p>
+            <ul>
+              <li>Anyone can browse, search and open listings.</li>
+              <li>Admins log in to add, edit and delete listings. Passwords are stored as scrypt hashes and logins expire after 30 minutes by default.</li>
+              <li>The November 2026 revision added one shared design system, safer rendering of listing text and server-side validation.</li>
+            </ul>
+          </div>
+        </section>
       </div>
-    </section>
-  </main>
-  <script src="/member/script.js"></script>
-</body>
+    </main>
+
+    <div id="site-footer"></div>
+  </body>
 </html>

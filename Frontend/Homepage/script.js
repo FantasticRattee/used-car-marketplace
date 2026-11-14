@@ -1,109 +1,84 @@
+import {
+  initPage,
+  initSearchForm,
+  api,
+  loadBrands,
+  el,
+  carCard,
+  brandTile,
+  carImage,
+  carTitle,
+  pricePlate,
+  plural,
+  skeletons,
+  stateBlock,
+} from "/shared/app.js";
 
-// Homepage/script.js
+initPage();
 
+const featured = document.getElementById("featured");
+const brandGrid = document.getElementById("brand-grid");
+const latest = document.getElementById("latest");
+const latestGrid = document.getElementById("latest-grid");
+const seeAll = document.getElementById("see-all");
+const lede = document.getElementById("hero-lede");
 
-// ✅ Render static cars for Explore section
-function createCarCard(car) {
-  return `
-    <article class="car-card">
-      <div class="car-card-content">
-        <img src="${car.image}" alt="${car.title}" class="car-image" />
-        <h3 class="car-title">${car.title}</h3>
-        <p class="car-price">${car.price}</p>
-        <p class="car-mileage">${car.mileage}</p>
-      </div>
-      <div class="car-actions">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a136039a3f1e73af0706c817280168356ca97e3a?placeholderIfAbsent=true" alt="Call" class="action-button" />
-        
-      </div>
-    </article>
-  `;
+brandGrid.append(...skeletons(6, "skeleton--tile"));
+latestGrid.append(...skeletons(6, "skeleton--card"));
+
+initSearchForm(document.getElementById("hero-search"), { values: { keyword: "", brand: "", model: "", sellerType: "", sort: "" } });
+
+function renderFeatured(car) {
+  const title = carTitle(car);
+  const link = el(
+    "a",
+    { class: "featured", href: `/detail?id=${encodeURIComponent(car.id)}` },
+    el("div", { class: "featured__media" }, carImage(car.image_1, `${title}${car.model ? `, ${car.model}` : ""}`, { loading: "eager", fetchpriority: "high" })),
+    el(
+      "div",
+      { class: "featured__caption" },
+      el("div", {}, el("p", { class: "featured__label", text: "Newest listing" }), el("p", { class: "featured__title", text: title })),
+      pricePlate(car.price)
+    )
+  );
+  featured.replaceWith(link);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // ✅ Re-check login timeout
-  const loginTime = parseInt(localStorage.getItem("loginTime"), 10);
-  const now = Date.now();
-  const timeout = 30 * 60 * 1000; // 30 mins
-  const expired = isNaN(loginTime) || now - loginTime > timeout;
+try {
+  const [cars, brands] = await Promise.all([api("/api/cars"), loadBrands()]);
 
-  if (expired) {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
-    localStorage.removeItem("loginTime");
+  if (cars.length) {
+    renderFeatured(cars[0]);
+    lede.textContent = `${plural(cars.length, "used car")} from dealers and private sellers. Compare price, mileage and specs, then call the seller directly.`;
+  } else {
+    featured.remove();
   }
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const role = localStorage.getItem("role");
+  brandGrid.replaceChildren(...brands.map((brand) => el("li", {}, brandTile(brand))));
+  brandGrid.removeAttribute("aria-busy");
 
-  // ✅ Control Edit Car button
-  const editBtn = document.getElementById("editBtn");
-  if (editBtn) {
-    if (isLoggedIn && role === "superadmin") {
-      editBtn.addEventListener("click", () => {
-        window.location.href = "/product-add";
-      });
-    } else {
-      editBtn.style.opacity = 0.5;
-      editBtn.style.pointerEvents = "auto";
-      editBtn.title = "Only superadmin can access this feature";
-      editBtn.addEventListener("click", () => {
-        alert("⚠️ Please login as superadmin to access this feature.");
-      });
-    }
+  seeAll.textContent = `See all ${plural(cars.length, "car")}`;
+  if (cars.length) {
+    // The newest car is already featured in the hero, so the grid starts with the next six.
+    const rest = cars.length > 1 ? cars.slice(1, 7) : cars;
+    latestGrid.replaceChildren(...rest.map((car) => el("li", {}, carCard(car))));
+  } else {
+    latest.replaceChildren(
+      stateBlock({ title: "No cars listed yet", text: "Listings added by an admin appear here first." })
+    );
   }
-
-  // ✅ Load car cards
-  const carGrid = document.getElementById("carGrid");
-  if (carGrid) {
-    fetch("http://localhost:8080/api/cars")
-      .then(res => res.json())
-      .then(data => {
-        const cards = data.map(car => createCarCard({
-          image: car.image || car.image_1,
-          title: `${car.year} ${car.name} ${car.model}`,
-          price: `${car.price}`,
-          mileage: `${car.mileage}`
-        })).join("");
-        carGrid.innerHTML = cards;
-      })
-      .catch(err => console.error("❌ Failed to fetch car grid:", err));
-  }
-
-  // ✅ Handle brand dropdown
-  const brandSelect = document.getElementById("brand");
-  const modelSelect = document.getElementById("model");
-
-  if (brandSelect && modelSelect) {
-    brandSelect.addEventListener("change", async () => {
-      const selectedBrand = brandSelect.value;
-      if (!selectedBrand) {
-        modelSelect.innerHTML = `<option value="">Select Model</option>`;
-        return;
-      }
-
-      try {
-        const response = await fetch(`http://localhost:8080/api/models?brand=${encodeURIComponent(selectedBrand)}`);
-        const models = await response.json();
-        modelSelect.innerHTML = `<option value="">Select Model</option>` +
-          models.map(model => `<option value="${model}">${model}</option>`).join("");
-      } catch (error) {
-        console.error("Failed to fetch models:", error);
-        modelSelect.innerHTML = `<option value="">Select Model</option>`;
-      }
-    });
-  }
-
-  // ✅ Redirect search form
-  const searchForm = document.getElementById("search-form");
-  if (searchForm) {
-    searchForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const brand = brandSelect?.value || "";
-      const model = modelSelect?.value || "";
-      const sellerType = document.getElementById("sellerType")?.value || "";
-      const query = new URLSearchParams({ brand, model, sellerType });
-      window.location.href = `/searchpage-result?${query.toString()}`;
-    });
-  }
-});
+  latest.removeAttribute("aria-busy");
+} catch (err) {
+  featured.remove();
+  brandGrid.replaceChildren();
+  brandGrid.removeAttribute("aria-busy");
+  latest.removeAttribute("aria-busy");
+  latest.replaceChildren(
+    stateBlock({
+      title: "Listings could not load",
+      text: err.message,
+      tone: "error",
+      actions: [el("button", { class: "btn btn--dark", type: "button", onclick: () => location.reload() }, "Try again")],
+    })
+  );
+}
